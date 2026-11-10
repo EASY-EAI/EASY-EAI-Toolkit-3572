@@ -1,0 +1,39 @@
+# Common build output directory names
+build/
+.build/
+_build/
+build-output/
+cmake-out/
+lmo_adapter_build/
+
+# Backup files for Emacs
+*~
+
+# Ignore Visual Studio Code files
+.vsbuild/
+.vscode/
+
+# project files
+prj/
+Demos/*/Release/test-*
+Solutions/*/Release/*
+!Solutions/*/Release/*.jpg
+Solutions/*/package/*/userdata
+Solutions/*/package/*.deb
+.qmake.stash
+UiSolutions/*/Release
+UiSolutions/*/Debug
+UiSolutions/*/*.user
+UiSolutions/*/Makefile
+deb_package
+logCfg
+
+#easyeai-api
+
+docs/
+
+# Internal aov refactor repository (managed separately)
+aov_refactor/
+
+
+.aider*
