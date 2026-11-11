@@ -16,7 +16,6 @@ endif()
 project(${CURRENT_FOLDER})
 add_definitions(-Wall -Wpointer-arith -DRV1126B)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC -Wall -pthread")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold")
 
 # ======================== easyeai_api =========================
 set(toolkit_root ${CMAKE_CURRENT_SOURCE_DIR}/../../easyeai-api)
