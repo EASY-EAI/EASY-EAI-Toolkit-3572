@@ -22,13 +22,22 @@ How to use：
 
 Directory description:
 ---
-* `easyeai-api` - source codes and prebuilt libraries of each component api, prebuilt libraries are grouped by board system version (ubuntu22.04 / ubuntu24.04 / ubuntu26.04 / debian13)
+* `easyeai-api` - source codes and prebuilt libraries of each component api, prebuilt libraries are grouped by board system version (debian13 / ubuntu26.04)
 * `Demos` - api demo programs, used to verify api functions
 * `Solutions` - complete solutions, such as app-bsd, detect-Person, rtspIPCamera, rtspMulitPlayer, speechRecognitionLive, vcic_stream
 * `UiSolutions` - Qt solutions, such as QDemo, QMultiDisplay
 
 important update log:
 ---
+> 2026-11-11 :
+> * update easyeai-api prebuilt libraries
+>     * [new] ubuntu26.04 prebuilt libraries for common/ipc and common/log_manager
+>     * [update] debian13 / ubuntu26.04 prebuilt libraries for common/log_manager_pro, media/display, media/gst_opt and netProtocol/vcic
+>     * [remove] ubuntu22.04 / ubuntu24.04 prebuilt libraries
+> * update Solution
+>     * [update] README documents for app-bsd, detect-Person, rtspIPCamera, rtspMulitPlayer, speechRecognitionLive and vcic_stream
+>     * [fix] remove hard-coded gold linker from build configurations of app-bsd, detect-Person, rtspMulitPlayer and vcic_stream
+>
 > 2026-11-10 :
 > * Release EASY-EAI-Toolkit-3572-0.0.0
 > * add easyeai-api

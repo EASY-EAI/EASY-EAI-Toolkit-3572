@@ -22,13 +22,22 @@
 
 目录说明：
 ---
-* `easyeai-api` - 各组件 api 源码与预编译库，预编译库按板端系统版本分目录(ubuntu22.04 / ubuntu24.04 / ubuntu26.04 / debian13)
+* `easyeai-api` - 各组件 api 源码与预编译库，预编译库按板端系统版本分目录(debian13 / ubuntu26.04)
 * `Demos` - 各 api 的单例程序，用于验证 api 功能
 * `Solutions` - 完整方案，如 app-bsd、detect-Person、rtspIPCamera、rtspMulitPlayer、speechRecognitionLive、vcic_stream
 * `UiSolutions` - Qt 方案，如 QDemo、QMultiDisplay
 
 重要更新：
 ---
+> 2026-11-11 :
+> * 更新 easyeai-api 预编译库
+>     * [新增] common/ipc、common/log_manager 的 ubuntu26.04 预编译库
+>     * [更新] common/log_manager_pro、media/display、media/gst_opt、netProtocol/vcic 的 debian13 / ubuntu26.04 预编译库
+>     * [移除] ubuntu22.04 / ubuntu24.04 预编译库
+> * 更新【开发实例】
+>     * [更新] app-bsd、detect-Person、rtspIPCamera、rtspMulitPlayer、speechRecognitionLive、vcic_stream 的 README 文档
+>     * [修复] 移除 app-bsd、detect-Person、rtspMulitPlayer、vcic_stream 构建配置中硬编码的 gold 链接器
+>
 > 2026-11-10 :
 > * 发布 EASY-EAI-Toolkit-3572-0.0.0
 > * 新增 easyeai-api
