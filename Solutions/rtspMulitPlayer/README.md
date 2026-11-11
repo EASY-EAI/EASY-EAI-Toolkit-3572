@@ -1,18 +1,19 @@
 # rtspMulitPlayer
 
-多路 RTSP 拉流、硬件解码并轮播显示到屏幕的示例程序（RK3572 / Ubuntu 26.04）。
+多路 RTSP 拉流、硬件解码并轮播显示到屏幕的示例程序（RK3572 / Debian 13 / Ubuntu 26.04）。
 
 ## 功能说明
 
-- GStreamer 拉取 RTSP 流：`rtspsrc` → `rtph264depay` / `rtph265depay` → `h264parse` / `h265parse` → `mppvideodec`（MPP 硬解）→ `appsink`
-- 解码后的 NV12 帧经 RGA 转为 BGR，按通道缓存到内存
-- 显示线程每 10 秒切换一路通道，将当前帧经 RGA 做 `BGR → BGRX8888` 转换和 270° 旋转后，交给 `display` 模块的 primary 图层全屏显示（缩放由显示层完成）
+- GStreamer 拉取 RTSP 流：`rtspsrc` → `rtph264depay` / `rtph265depay` → `h264parse` / `h265parse` → `mppvideodec`（MPP 硬解）→ `appsink`；代码中虽创建了 `videoscale` / `capsfilter`，但未加入管线
+- 解码后的 NV12 帧经 `videoOutHandle()` 进入 `analyzer`，由 RGA 转为 BGR 并按通道缓存
+- 分析线程轮询各通道调用 `algorithm_process()`；当前模型调用被注释，只保留结果绘制接口
+- 显示线程每 10 秒切换一路通道，将当前帧经 RGA 做 `BGR → BGRX8888` 转换和 270° 旋转后，交给 `display_primary_commit()` 送到 primary 图层全屏显示（缩放由显示层完成）
 - 通道尚未收到任何码流时显示 `noSignal.jpg`
-- 目标检测算法当前未启用（`algoProcess.cpp` 中的模型调用已注释），只保留结果绘制接口
+- 没有注册信号处理，`Ctrl+C` 由系统直接终止进程
 
 ## 运行前置条件（板端）
 
-1. 板子系统为 Ubuntu 26.04 (aarch64)，且已安装运行时依赖：
+1. 板子系统为 Debian 13 或 Ubuntu 26.04 (aarch64)，且已安装运行时依赖：
    - GStreamer 及 Rockchip 插件（`rtspsrc`、`rtph264depay`/`rtph265depay`、`h264parse`/`h265parse`、`mppvideodec`、`appsink`）
    - librga（RGA 硬件加速）
    - OpenCV（`opencv_core`、`opencv_imgproc`、`opencv_imgcodecs`）
@@ -34,16 +35,17 @@
 
 ## 编译前置条件（主机）
 
-- 已配置 aarch64 交叉工具链，默认读取 `~/configs/cross.cmake`（工具链 + sysroot）
+- 已导出 `SYSROOT=<板端 rootfs 挂载路径>`；CMake 在非 aarch64 主机上读取 `~/configs/cross.cmake`（工具链 + sysroot），主机本身是 aarch64 时直接本机编译
+- 目标板 rootfs 为 Debian 13 或 Ubuntu 26.04，交叉工具链 `aarch64-linux-gnu-gcc` 15.2.0
 - sysroot 中已包含目标系统的 OpenCV、GStreamer、libdrm 等开发文件
-- `easyeai-api` 下已提供 ubuntu26.04 的预编译静态库（`display`、`gst_opt`、`rga`、`log_manager_pro` 等），无需单独编译 SDK
+- `easyeai-api` 下同时提供 `debian13/` 与 `ubuntu26.04/` 的预编译静态库（`display`、`gst_opt`、`log_manager_pro` 等；`gst_opt`/`display` 按 `${CMAKE_BOARDSYS}` 选择，无跨平台回退），按目标板平台取用，无需单独编译 SDK
 
 ## 编译
 
 在 `Solutions/rtspMulitPlayer` 目录执行：
 
 ```bash
-export SYSROOT=/path/to/rootfs     # 例如 /home/jango/mnt
+export SYSROOT=<板端 rootfs 挂载路径>
 ./build.sh
 ```
 
@@ -87,7 +89,7 @@ cd /userdata/Solu/rtspMulitPlayer
 sudo ./rtspMulitPlayer
 ```
 
-按 `Ctrl+C` 结束程序；结束后可执行 `sudo systemctl start gdm` 恢复桌面。
+按 `Ctrl+C` 直接结束进程（无优雅退出清理）；结束后可执行 `sudo systemctl start gdm` 恢复桌面。
 
 ## 修改视频源
 
@@ -112,7 +114,7 @@ static const SrcCfg_t SrcCfg_tab[] = {
 
 - 通道数由数组元素个数决定，显示线程按数组顺序每 10 秒轮播
 - `videoEncType` 支持 `h264`、`h265`
-- 音频当前未启用（`audioEncType = "null"`）
+- 音频当前未启用（`audioEncType = "null"`，`createAudioDecChannel()` 未调用）
 
 修改后需重新编译并部署。
 
