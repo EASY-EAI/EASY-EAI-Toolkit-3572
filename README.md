@@ -29,6 +29,10 @@
 
 重要更新：
 ---
+> 2026-11-12 :
+> * 更新 easyeai-api 预编译库
+>     * [新增] algorithm 下 bsd、car_detect、face_detect、face_landmark98、face_recognition、fire_detect、gestures、helmet_detect、lane_detect、lpr、ocr、person_detect、person_pose、speech_recognition 的 ubuntu26.04 预编译库
+>
 > 2026-11-11 :
 > * 更新 easyeai-api 预编译库
 >     * [新增] common/ipc、common/log_manager 的 ubuntu26.04 预编译库

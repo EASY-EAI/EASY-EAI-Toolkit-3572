@@ -29,6 +29,10 @@ Directory description:
 
 important update log:
 ---
+> 2026-11-12 :
+> * update easyeai-api prebuilt libraries
+>     * [new] ubuntu26.04 prebuilt libraries for algorithm bsd, car_detect, face_detect, face_landmark98, face_recognition, fire_detect, gestures, helmet_detect, lane_detect, lpr, ocr, person_detect, person_pose and speech_recognition
+>
 > 2026-11-11 :
 > * update easyeai-api prebuilt libraries
 >     * [new] ubuntu26.04 prebuilt libraries for common/ipc and common/log_manager
